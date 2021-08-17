@@ -8,10 +8,10 @@ class Hotels(BaseDataset):
         self.mode = mode
         if mode == 'train':
             self.root = root + '/hotels50k/train_small'
-            self.config_file = pd.read_csv('/hotels50k/v5_splits/train_small.csv')
+            self.config_file = pd.read_csv(root + '/hotels50k/v5_splits/train_small.csv')
         elif self.mode == 'eval':
             self.root = root + '/hotels50k/val1_small'
-            self.config_file = pd.read_csv('/hotels50k/v5_splits/val1_small.csv')
+            self.config_file = pd.read_csv(root + '/hotels50k/v5_splits/val1_small.csv')
         self.transform = transform
         print('getting classes')
         self.classes = np.unique(self.config_file.label)
