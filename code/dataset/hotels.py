@@ -9,6 +9,7 @@ class Hotels(BaseDataset):
         elif self.mode == 'eval':
             self.root = root + '/hotels50k_v5_restructured/val1_small'
         self.transform = transform
+        print('getting classes')
         self.classes = torchvision.datasets.ImageFolder(root=root).classes
         # if self.mode == 'train':
         #     self.classes = range(0, 100)
@@ -17,7 +18,9 @@ class Hotels(BaseDataset):
 
         BaseDataset.__init__(self, self.root, self.mode, self.transform)
         index = 0
+        print('getting imgs...')
         with tqdm(total=len(torchvision.datasets.ImageFolder(root=self.root).imgs), desc=f'Loading hotels {mode}...') as t:
+            print('getting imgs 2...')
             for i in torchvision.datasets.ImageFolder(root=self.root).imgs:
                 # i[1]: label, i[0]: root
                 y = i[0].split('/')[-2]
