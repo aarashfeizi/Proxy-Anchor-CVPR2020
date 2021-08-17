@@ -6,6 +6,14 @@ import json
 from tqdm import tqdm
 import torch.nn.functional as F
 import math
+import os, sys
+
+def get_logger(logname):
+
+    logging.basicConfig(filename=os.path.join('logs', logname + '.log'),
+                        filemode='a', format='%(asctime)s - %(message)s', level=logging.INFO)
+
+    return logging.getLogger()
 
 def l2_norm(input):
     input_size = input.size()

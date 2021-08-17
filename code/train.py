@@ -11,7 +11,7 @@ from torch.utils.data.sampler import BatchSampler
 from torch.utils.data.dataloader import default_collate
 
 from tqdm import *
-import wandb
+# import wandb
 
 seed = 1
 random.seed(seed)
@@ -103,8 +103,9 @@ if args.gpu_id != -1:
 LOG_DIR = args.LOG_DIR + '/logs_{}/{}_{}_embedding{}_alpha{}_mrg{}_{}_lr{}_batch{}{}'.format(args.dataset, args.model, args.loss, args.sz_embedding, args.alpha, 
                                                                                             args.mrg, args.optimizer, args.lr, args.sz_batch, args.remark)
 # Wandb Initialization
-wandb.init(project=args.dataset + '_ProxyAnchor', notes=LOG_DIR)
-wandb.config.update(args)
+# wandb.init(project=args.dataset + '_ProxyAnchor', notes=LOG_DIR)
+# wandb.config.update(args)
+logger = utils.get_logger(LOG_DIR)
 
 os.chdir('../data/')
 data_root = os.getcwd()
@@ -307,7 +308,8 @@ for epoch in range(0, args.nb_epochs):
                 loss.item()))
         
     losses_list.append(np.mean(losses_per_epoch))
-    wandb.log({'loss': losses_list[-1]}, step=epoch)
+    # wandb.log({'loss': losses_list[-1]}, step=epoch)
+    logger.info(f'loss: {losses_list[-1]}, step={epoch}')
     scheduler.step()
     
     if(epoch >= 0):
@@ -323,13 +325,16 @@ for epoch in range(0, args.nb_epochs):
         # Logging Evaluation Score
         if args.dataset == 'Inshop':
             for i, K in enumerate([1,10,20,30,40,50]):    
-                wandb.log({"R@{}".format(K): Recalls[i]}, step=epoch)
+                # wandb.log({"R@{}".format(K): Recalls[i]}, step=epoch)
+                logger.info(f'R@{K}: {Recalls[i]}, step={epoch}')
         elif args.dataset != 'SOP':
             for i in range(6):
-                wandb.log({"R@{}".format(2**i): Recalls[i]}, step=epoch)
+                # wandb.log({"R@{}".format(2**i): Recalls[i]}, step=epoch)
+                logger.info(f'R@{2**i}: {Recalls[i]}, step={epoch}')
         else:
             for i in range(4):
-                wandb.log({"R@{}".format(10**i): Recalls[i]}, step=epoch)
+                # wandb.log({"R@{}".format(10**i): Recalls[i]}, step=epoch)
+                logger.info(f'R@{10**i}: {Recalls[i]}, step={epoch}')
         
         # Best model save
         if best_recall[0] < Recalls[0]:
@@ -349,5 +354,3 @@ for epoch in range(0, args.nb_epochs):
                 else:
                     for i in range(4):
                         f.write("Best Recall@{}: {:.4f}\n".format(10**i, best_recall[i] * 100))
-
-    
