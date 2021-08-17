@@ -32,6 +32,14 @@ parser.add_argument('--dataset',
     default='cub',
     help = 'Training dataset, e.g. cub, cars, SOP, Inshop'
 )
+
+parser.add_argument('--datasets_path',
+    default='../data/',
+    help = 'Training datasets path'
+)
+
+
+
 parser.add_argument('--embedding-size', default = 512, type = int,
     dest = 'sz_embedding',
     help = 'Size of embedding that is appended to backbone model.'
@@ -107,7 +115,7 @@ LOG_DIR = args.LOG_DIR + '/logs_{}/{}_{}_embedding{}_alpha{}_mrg{}_{}_lr{}_batch
 # wandb.config.update(args)
 logger = utils.get_logger(LOG_DIR)
 
-os.chdir('../data/')
+os.chdir(args.datasets_path)
 data_root = os.getcwd()
 # Dataset Loader and Sampler
 if args.dataset != 'Inshop':
