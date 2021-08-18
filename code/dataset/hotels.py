@@ -6,11 +6,10 @@ from tqdm import tqdm
 class Hotels(BaseDataset):
     def __init__(self, root, mode, transform=None):
         self.mode = mode
+        self.root = root + '/hotels50k/'
         if mode == 'train':
-            self.root = root + '/hotels50k/train_small'
             self.config_file = pd.read_csv(root + '/hotels50k/v5_splits/train_small.csv')
         elif self.mode == 'eval':
-            self.root = root + '/hotels50k/val1_small'
             self.config_file = pd.read_csv(root + '/hotels50k/v5_splits/val1_small.csv')
         self.transform = transform
         print('getting classes')
@@ -23,7 +22,8 @@ class Hotels(BaseDataset):
         BaseDataset.__init__(self, self.root, self.mode, self.transform)
         self.ys = list(self.config_file.label)
         self.I = [i for i in range(len(self.ys))]
-        self.im_paths = list(self.config_file.image)
+        relative_im_paths = list(self.config_file.image)
+        self.im_paths = [os.path.join(self.root, i) for i in relative_im_paths]
         # index = 0
         # print('getting imgs...')
         # with tqdm(total=len(torchvision.datasets.ImageFolder(root=self.root).imgs), desc=f'Loading hotels {mode}...') as t:
