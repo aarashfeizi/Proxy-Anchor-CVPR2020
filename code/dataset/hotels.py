@@ -15,15 +15,15 @@ class Hotels(BaseDataset):
         self.transform = transform
         print('getting classes')
         self.classes = np.unique(self.config_file.label)
-        self.ys = list(self.config_file.label)
-        self.I = [i for i in range(len(self.ys))]
-        self.im_paths = list(self.config_file.image)
         # if self.mode == 'train':
         #     self.classes = range(0, 100)
         # elif self.mode == 'eval':
         #     self.classes = range(100, 200)
 
         BaseDataset.__init__(self, self.root, self.mode, self.transform)
+        self.ys = list(self.config_file.label)
+        self.I = [i for i in range(len(self.ys))]
+        self.im_paths = list(self.config_file.image)
         # index = 0
         # print('getting imgs...')
         # with tqdm(total=len(torchvision.datasets.ImageFolder(root=self.root).imgs), desc=f'Loading hotels {mode}...') as t:
