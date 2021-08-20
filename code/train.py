@@ -166,7 +166,8 @@ if args.dataset != 'Inshop':
             mode = 'eval',
             transform = dataset.utils.make_transform(
                 is_train = False, 
-                is_inception = (args.model == 'bn_inception')
+                is_inception = (args.model == 'bn_inception'),
+            project_dir=project_dir
             ))
 
     dl_ev = torch.utils.data.DataLoader(
