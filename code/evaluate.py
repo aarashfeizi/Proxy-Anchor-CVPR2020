@@ -11,7 +11,7 @@ from torch.utils.data.sampler import BatchSampler
 from torch.utils.data.dataloader import default_collate
 
 from tqdm import *
-import wandb
+# import wandb
 
 seed = 1
 random.seed(seed)
@@ -27,6 +27,12 @@ parser.add_argument('--dataset',
     default='cub',
     help = 'Training dataset, e.g. cub, cars, SOP, Inshop'
 )
+
+parser.add_argument('--datasets_path',
+    default='../data/',
+    help = 'Training datasets path'
+)
+
 parser.add_argument('--embedding-size', default = 512, type = int,
     dest = 'sz_embedding',
     help = 'Size of embedding that is appended to backbone model.'
@@ -61,7 +67,8 @@ if args.gpu_id != -1:
     torch.cuda.set_device(args.gpu_id)
 
 # Data Root Directory
-os.chdir('../data/')
+logger = utils.get_logger(LOG_DIR)
+os.chdir(args.datasets_path)
 data_root = os.getcwd()
     
 # Dataset Loader and Sampler
@@ -73,7 +80,8 @@ if args.dataset != 'Inshop':
             transform = dataset.utils.make_transform(
                 is_train = False, 
                 is_inception = (args.model == 'bn_inception')
-            ))
+            ),
+            project_dir=project_dir)
 
     dl_ev = torch.utils.data.DataLoader(
         ev_dataset,
