@@ -7,6 +7,7 @@ import torch
 import torchvision
 import numpy as np
 import PIL.Image
+import pickle
 
 class BaseDataset(torch.utils.data.Dataset):
     def __init__(self, root, mode, transform = None):
