@@ -67,7 +67,6 @@ if args.gpu_id != -1:
     torch.cuda.set_device(args.gpu_id)
 
 # Data Root Directory
-logger = utils.get_logger(LOG_DIR)
 os.chdir(args.datasets_path)
 data_root = os.getcwd()
     
