@@ -141,11 +141,11 @@ if args.gpu_id == -1:
     model = nn.DataParallel(model)
 
 if os.path.isfile(args.resume):
-    print('=> loading checkpoint {}'.format(args.resume))
-    checkpoint = torch.load(args.resume)
+    print('=> loading checkpoint {}'.format(os.path.join(project_dir, args.resume)))
+    checkpoint = torch.load(os.path.join(project_dir, args.resume))
     model.load_state_dict(checkpoint['model_state_dict'])
 else:
-    print('=> No checkpoint found at {}'.format(args.resume))
+    print('=> No checkpoint found at {}'.format(os.path.join(project_dir, args.resume)))
     sys.exit(0)
                     
 with torch.no_grad():
