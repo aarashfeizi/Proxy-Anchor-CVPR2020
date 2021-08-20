@@ -13,6 +13,6 @@ _type = {
     'hotels': Hotels
 }
 
-def load(name, root, mode, transform = None):
-    return _type[name](root = root, mode = mode, transform = transform)
+def load(name, root, mode, transform = None, project_dir=None):
+    return _type[name](root = root, mode = mode, transform = transform, project_dir=project_dir)
     

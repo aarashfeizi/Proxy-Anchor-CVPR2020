@@ -14,6 +14,7 @@ class BaseDataset(torch.utils.data.Dataset):
         self.mode = mode
         self.transform = transform
         self.ys, self.im_paths, self.I = [], [], []
+        self.train_lbl2id = {}
 
     def nb_classes(self):
         assert set(self.ys) == set(self.classes)
@@ -32,7 +33,10 @@ class BaseDataset(torch.utils.data.Dataset):
             return im
 
         im = img_load(index)
-        target = self.ys[index]
+        if self.train_lbl2id.get(self.ys[index]):
+            target = self.train_lbl2id.get(self.ys[index])
+        else:
+            target = self.ys[index]
 
         return im, target
 

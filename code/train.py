@@ -114,7 +114,7 @@ LOG_DIR = args.LOG_DIR + '/logs_{}/{}_{}_embedding{}_alpha{}_mrg{}_{}_lr{}_batch
 # wandb.init(project=args.dataset + '_ProxyAnchor', notes=LOG_DIR)
 # wandb.config.update(args)
 logger = utils.get_logger(LOG_DIR)
-
+project_dir = os.getcwd()
 os.chdir(args.datasets_path)
 data_root = os.getcwd()
 # Dataset Loader and Sampler
@@ -126,7 +126,8 @@ if args.dataset != 'Inshop':
             transform = dataset.utils.make_transform(
                 is_train = True, 
                 is_inception = (args.model == 'bn_inception')
-            ))
+            ),
+            project_dir=project_dir)
 else:
     trn_dataset = Inshop_Dataset(
             root = data_root,

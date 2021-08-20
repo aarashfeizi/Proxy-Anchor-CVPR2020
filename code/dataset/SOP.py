@@ -1,7 +1,7 @@
 from .base import *
 
 class SOP(BaseDataset):
-    def __init__(self, root, mode, transform = None):
+    def __init__(self, root, mode, transform = None, project_dir=None):
         self.root = root + '/Stanford_Online_Products'
         self.mode = mode
         self.transform = transform
