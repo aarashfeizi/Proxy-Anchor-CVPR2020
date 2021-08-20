@@ -109,7 +109,7 @@ if args.gpu_id != -1:
 
 # Directory for Log
 project_dir = os.getcwd()
-LOG_DIR = os.path.join(project_dir + '/logs_{}/{}_{}_embedding{}_alpha{}_mrg{}_{}_lr{}_batch{}{}'.format(args.dataset, args.model, args.loss, args.sz_embedding, args.alpha, 
+LOG_DIR = os.path.join(project_dir + '/logs/logs_{}/{}_{}_embedding{}_alpha{}_mrg{}_{}_lr{}_batch{}{}'.format(args.dataset, args.model, args.loss, args.sz_embedding, args.alpha,
                                                                                             args.mrg, args.optimizer, args.lr, args.sz_batch, args.remark))
 # Wandb Initialization
 # wandb.init(project=args.dataset + '_ProxyAnchor', notes=LOG_DIR)
