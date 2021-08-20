@@ -7,13 +7,13 @@ class Hotels(BaseDataset):
     def __init__(self, root, mode, transform=None, project_dir=None):
         self.mode = mode
         self.root = root + '/hotels50k/'
-        with open(project_dir + 'v5_splits/train_lbl2id.pkl', 'rb') as f:
+        with open(project_dir + '/v5_splits/train_lbl2id.pkl', 'rb') as f:
             self.train_lbl2id = pickle.load(f)
 
         if mode == 'train':
-            self.config_file = pd.read_csv(project_dir + 'v5_splits/train_small.csv')
+            self.config_file = pd.read_csv(project_dir + '/v5_splits/train_small.csv')
         elif self.mode == 'eval':
-            self.config_file = pd.read_csv(project_dir + 'v5_splits/val1_small.csv')
+            self.config_file = pd.read_csv(project_dir + '/v5_splits/val1_small.csv')
         
         self.transform = transform
         print('getting classes')
