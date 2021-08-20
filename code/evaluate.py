@@ -140,7 +140,7 @@ model = model.cuda()
 if args.gpu_id == -1:
     model = nn.DataParallel(model)
 
-if os.path.isfile(args.resume):
+if os.path.isfile(os.path.join(project_dir, args.resume)):
     print('=> loading checkpoint {}'.format(os.path.join(project_dir, args.resume)))
     checkpoint = torch.load(os.path.join(project_dir, args.resume))
     model.load_state_dict(checkpoint['model_state_dict'])
