@@ -108,13 +108,13 @@ if args.gpu_id != -1:
     torch.cuda.set_device(args.gpu_id)
 
 # Directory for Log
-LOG_DIR = args.LOG_DIR + '/logs_{}/{}_{}_embedding{}_alpha{}_mrg{}_{}_lr{}_batch{}{}'.format(args.dataset, args.model, args.loss, args.sz_embedding, args.alpha, 
-                                                                                            args.mrg, args.optimizer, args.lr, args.sz_batch, args.remark)
+project_dir = os.getcwd()
+LOG_DIR = os.path.join(project_dir + '/logs_{}/{}_{}_embedding{}_alpha{}_mrg{}_{}_lr{}_batch{}{}'.format(args.dataset, args.model, args.loss, args.sz_embedding, args.alpha, 
+                                                                                            args.mrg, args.optimizer, args.lr, args.sz_batch, args.remark))
 # Wandb Initialization
 # wandb.init(project=args.dataset + '_ProxyAnchor', notes=LOG_DIR)
 # wandb.config.update(args)
 logger = utils.get_logger(LOG_DIR)
-project_dir = os.getcwd()
 os.chdir(args.datasets_path)
 data_root = os.getcwd()
 # Dataset Loader and Sampler
