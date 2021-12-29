@@ -111,6 +111,7 @@ if args.gpu_id != -1:
 project_dir = os.getcwd()
 LOG_DIR = os.path.join(project_dir + '/logs/logs_{}/{}_{}_embedding{}_alpha{}_mrg{}_{}_lr{}_batch{}{}'.format(args.dataset, args.model, args.loss, args.sz_embedding, args.alpha,
                                                                                             args.mrg, args.optimizer, args.lr, args.sz_batch, args.remark))
+utils.make_dir(LOG_DIR)
 # Wandb Initialization
 # wandb.init(project=args.dataset + '_ProxyAnchor', notes=LOG_DIR)
 # wandb.config.update(args)
@@ -326,11 +327,11 @@ for epoch in range(0, args.nb_epochs):
         with torch.no_grad():
             print("**Evaluating...**")
             if args.dataset == 'Inshop':
-                Recalls = utils.evaluate_cos_Inshop(model, dl_query, dl_gallery)
+                Recalls, X = utils.evaluate_cos_Inshop(model, dl_query, dl_gallery)
             elif args.dataset != 'SOP':
-                Recalls = utils.evaluate_cos(model, dl_ev)
+                Recalls, X = utils.evaluate_cos(model, dl_ev)
             else:
-                Recalls = utils.evaluate_cos_SOP(model, dl_ev)
+                Recalls, X = utils.evaluate_cos_SOP(model, dl_ev)
                 
         # Logging Evaluation Score
         if args.dataset == 'Inshop':
@@ -348,6 +349,8 @@ for epoch in range(0, args.nb_epochs):
         
         # Best model save
         if best_recall[0] < Recalls[0]:
+            # np.save('{}/{}_{}_best_results_embeddings'.format(LOG_DIR, args.dataset, args.model), X)
+            utils.save_model('{}/{}_{}_model'.format(LOG_DIR, args.dataset, args.model), model, epoch, Recalls[0])
             best_recall = Recalls
             best_epoch = epoch
             if not os.path.exists('{}'.format(LOG_DIR)):

@@ -93,7 +93,7 @@ def evaluate_cos(model, dataloader):
         recall.append(r_at_k)
         print("R@{} : {:.3f}".format(k, 100 * r_at_k))
 
-    return recall
+    return recall, X
 
 def evaluate_cos_Inshop(model, query_dataloader, gallery_dataloader):
     nb_classes = query_dataloader.dataset.nb_classes()
@@ -134,7 +134,7 @@ def evaluate_cos_Inshop(model, query_dataloader, gallery_dataloader):
         recall.append(r_at_k)
         print("R@{} : {:.3f}".format(k, 100 * r_at_k))
                 
-    return recall
+    return recall, X
 
 def evaluate_cos_SOP(model, dataloader):
     nb_classes = dataloader.dataset.nb_classes()
@@ -171,4 +171,15 @@ def evaluate_cos_SOP(model, dataloader):
         r_at_k = calc_recall_at_k(T, Y, k)
         recall.append(r_at_k)
         print("R@{} : {:.3f}".format(k, 100 * r_at_k))
-    return recall
+    return recall, X
+
+def save_model(name, net, epoch, val_acc):
+        best_model = f'{name}_model-epoch-' + str(epoch) + '-val-acc-' + str(val_acc) + '.pth'
+        torch.save({'epoch': epoch, 'model_state_dict': net.state_dict()},
+                     best_model)
+        return best_model
+
+def make_dir(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return
